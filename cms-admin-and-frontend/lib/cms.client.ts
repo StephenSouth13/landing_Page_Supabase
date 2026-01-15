@@ -12,7 +12,7 @@ export async function getAdminClients() {
 // ==========================================
 
 export async function getPages() {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase
     .from("pages")
     .select("*")
