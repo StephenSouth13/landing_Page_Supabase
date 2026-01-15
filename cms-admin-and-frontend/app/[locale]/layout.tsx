@@ -19,8 +19,9 @@ export default function LocaleLayout({
   params,
 }: {
   children: React.ReactNode
-  params: { locale: string }
+  params: Promise<{ locale: string }>
 }) {
+  const { locale } = React.use(params)
   return (
     <html suppressHydrationWarning className={geist.className}>
       <body className={`${geistMono.className} font-sans antialiased`}>
