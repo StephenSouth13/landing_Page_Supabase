@@ -23,7 +23,7 @@ export default function LocaleLayout({
 }) {
   const { locale } = React.use(params)
   return (
-    <html suppressHydrationWarning className={geist.className}>
+    <html suppressHydrationWarning className={geist.className} lang={locale}>
       <body className={`${geistMono.className} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="cms-theme">
           {children}
