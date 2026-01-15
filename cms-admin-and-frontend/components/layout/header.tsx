@@ -1,3 +1,4 @@
+//D:\JOBS\landing_Page_Supabase\cms-admin-and-frontend\components\layout\header.tsx
 "use client"
 
 import Link from "next/link"
@@ -33,18 +34,24 @@ export function Header({ menu, siteConfig, locale }: HeaderProps) {
             </span>
           </Link>
 
-          <nav className="hidden md:flex gap-8">
-            {menu?.items?.map((item) => (
-              <Link
-                key={item.id}
-                href={item.is_external ? item.url : `/${locale}${item.url}`}
-                target={item.is_external ? "_blank" : undefined}
-                className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors duration-200"
-              >
-                {item.label[locale] || item.label.en}
-              </Link>
-            ))}
-          </nav>
+        <nav className="hidden md:flex gap-8">
+  {menu?.items?.map((item, index) => {
+    // Lấy label dựa trên locale từ các trường label_vi / label_en
+    const label = locale === "vi" ? item.label_vi : item.label_en;
+    
+    return (
+      <Link
+        key={index}
+        // Dùng item.href vì trong SQL bạn đặt tên là href chứ không phải url
+        href={item.href === "/" ? `/${locale}` : `/${locale}${item.href}`}
+        className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors duration-200"
+      >
+        {label || "Untitled"}
+      </Link>
+    )
+  })}
+</nav>
+          
 
           <div className="flex items-center gap-4">
             <LanguageSwitcher currentLocale={locale} />
