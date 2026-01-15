@@ -6,8 +6,8 @@ import "@/app/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { BackToTop } from "@/components/layout/back-to-top"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const geist = Geist({ subsets: ["latin"] })
+const geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "CMS Site",
@@ -19,11 +19,11 @@ export default function LocaleLayout({
   params,
 }: {
   children: React.ReactNode
-  params: Promise<{ locale: string }>
+  params: { locale: string }
 }) {
   return (
-    <html suppressHydrationWarning>
-      <body className={`font-sans antialiased`}>
+    <html suppressHydrationWarning className={geist.className}>
+      <body className={`${geistMono.className} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="cms-theme">
           {children}
           <BackToTop />
