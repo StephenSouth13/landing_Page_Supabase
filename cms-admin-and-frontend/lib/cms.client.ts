@@ -22,7 +22,7 @@ export async function getPages() {
 }
 
 export async function getPageBySlug(slug: string) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase
     .from("pages")
     .select("*")
@@ -33,7 +33,7 @@ export async function getPageBySlug(slug: string) {
 }
 
 export async function getPageSections(pageId: string) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase
     .from("page_sections")
     .select("*")
@@ -44,7 +44,7 @@ export async function getPageSections(pageId: string) {
 }
 
 export async function getMenuByLocation(location: "header" | "footer") {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase
     .from("menus")
     .select("*")
@@ -69,7 +69,7 @@ export async function getMenuByLocation(location: "header" | "footer") {
 }
 
 export async function getSiteConfig() {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase.from("site_config").select("*").limit(1)
 
   // FIX: Chống lỗi "reading favicon.ico"
@@ -97,7 +97,7 @@ export async function getSiteConfig() {
 // ==========================================
 
 export async function getAllPages() {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase
     .from("pages")
     .select("*")
@@ -111,25 +111,25 @@ export async function createPage(pageData: {
   seo_metadata?: Record<string, any>
   is_published?: boolean
 }) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase.from("pages").insert([pageData]).select()
   return { data, error }
 }
 
 export async function updatePage(pageId: string, updates: Record<string, any>) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase.from("pages").update(updates).eq("id", pageId).select()
   return { data, error }
 }
 
 export async function deletePage(pageId: string) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { error } = await supabase.from("pages").delete().eq("id", pageId)
   return { error }
 }
 
 export async function getAllPageSections(pageId: string) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase
     .from("page_sections")
     .select("*")
@@ -145,25 +145,25 @@ export async function createPageSection(sectionData: {
   content: Record<string, any>
   sort_order: number
 }) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase.from("page_sections").insert([sectionData]).select()
   return { data, error }
 }
 
 export async function updatePageSection(sectionId: string, updates: Record<string, any>) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase.from("page_sections").update(updates).eq("id", sectionId).select()
   return { data, error }
 }
 
 export async function deletePageSection(sectionId: string) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { error } = await supabase.from("page_sections").delete().eq("id", sectionId)
   return { error }
 }
 
 export async function reorderPageSections(sections: Array<{ id: string; sort_order: number }>) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const updates = sections.map((s) =>
     supabase.from("page_sections").update({ sort_order: s.sort_order }).eq("id", s.id)
   )
@@ -176,7 +176,7 @@ export async function reorderPageSections(sections: Array<{ id: string; sort_ord
 // ==========================================
 // Cập nhật trạng thái Ẩn/Hiện của một Section
 export async function updateSectionVisibility(sectionId: string, isVisible: boolean) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase
     .from("page_sections")
     .update({ is_visible: isVisible })
@@ -187,7 +187,7 @@ export async function updateSectionVisibility(sectionId: string, isVisible: bool
 
 // Cập nhật thứ tự sắp xếp của một Section (Dùng khi kéo thả đơn lẻ)
 export async function updateSectionOrder(sectionId: string, newOrder: number) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase
     .from("page_sections")
     .update({ sort_order: newOrder })
@@ -196,13 +196,13 @@ export async function updateSectionOrder(sectionId: string, newOrder: number) {
   return { data, error }
 }
 export async function updateSiteConfig(updates: Record<string, any>) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase.from("site_config").update(updates).limit(1).select()
   return { data, error }
 }
 
 export async function getSocialLinks() {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase
     .from("social_links")
     .select("*")
@@ -212,13 +212,13 @@ export async function getSocialLinks() {
 }
 
 export async function updateSocialLink(id: string, updates: Record<string, any>) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { error } = await supabase.from("social_links").update(updates).eq("id", id)
   return { error }
 }
 
 export async function getFooterSections() {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { data, error } = await supabase
     .from("footer_sections")
     .select("*")
@@ -228,7 +228,7 @@ export async function getFooterSections() {
 }
 
 export async function updateFooterSection(id: string, updates: Record<string, any>) {
-  const { supabase } = getAdminClients()
+  const { supabase } = await getAdminClients()
   const { error } = await supabase.from("footer_sections").update(updates).eq("id", id)
   return { error }
 }
