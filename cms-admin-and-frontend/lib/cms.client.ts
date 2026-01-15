@@ -1,11 +1,9 @@
-"use client"
+import { createClient } from "@/lib/supabase/server"
 
-import { createClient as createBrowserClient } from "@/lib/supabase/client"
-
-// Khởi tạo Supabase Client cho Browser
-export function getAdminClients() {
+// Khởi tạo Supabase Client cho Server
+export async function getAdminClients() {
   return {
-    supabase: createBrowserClient(),
+    supabase: await createClient(),
   }
 }
 
