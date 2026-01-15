@@ -36,7 +36,7 @@ export function Footer({ menu, siteConfig, locale }: FooterProps) {
                   rel={item.is_external ? "noopener noreferrer" : undefined}
                   className="text-foreground/60 hover:text-primary transition-all duration-200 text-sm font-medium hover:translate-x-1"
                 >
-                  {item.label[locale] || item.label.en}
+                  {typeof item.label === "object" ? (item.label[locale] || item.label.en) : item.label}
                 </Link>
               ))}
             </nav>
