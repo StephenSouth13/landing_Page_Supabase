@@ -39,6 +39,7 @@ export function Header({ menu, siteConfig, locale }: HeaderProps) {
                 key={item.id}
                 href={item.is_external ? item.url : `/${locale}${item.url}`}
                 target={item.is_external ? "_blank" : undefined}
+                rel={item.is_external ? "noopener noreferrer" : undefined}
                 className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors duration-200"
               >
                 {item.label[locale] || item.label.en}
