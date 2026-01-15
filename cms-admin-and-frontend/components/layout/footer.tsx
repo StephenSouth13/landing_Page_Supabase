@@ -28,17 +28,20 @@ export function Footer({ menu, siteConfig, locale }: FooterProps) {
           <div>
             <h3 className="font-semibold text-lg mb-6 text-foreground">{locale === "vi" ? "📍 Menu" : "📍 Menu"}</h3>
             <nav className="flex flex-col gap-3">
-              {menu?.items?.map((item) => (
-                <Link
-                  key={item.id}
-                  href={item.is_external ? item.url : `/${locale}${item.url}`}
-                  target={item.is_external ? "_blank" : undefined}
-                  rel={item.is_external ? "noopener noreferrer" : undefined}
-                  className="text-foreground/60 hover:text-primary transition-all duration-200 text-sm font-medium hover:translate-x-1"
-                >
-                  {typeof item.label === "object" ? (item.label[locale] || item.label.en) : item.label}
-                </Link>
-              ))}
+              {menu?.items?.map((item) => {
+                const label = item?.label ? (typeof item.label === "object" ? (item.label[locale] || item.label.en || "Menu Item") : item.label) : "Menu Item"
+                return (
+                  <Link
+                    key={item.id}
+                    href={item.is_external ? item.url : `/${locale}${item.url}`}
+                    target={item.is_external ? "_blank" : undefined}
+                    rel={item.is_external ? "noopener noreferrer" : undefined}
+                    className="text-foreground/60 hover:text-primary transition-all duration-200 text-sm font-medium hover:translate-x-1"
+                  >
+                    {label}
+                  </Link>
+                )
+              })}
             </nav>
           </div>
 
